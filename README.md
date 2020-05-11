@@ -1,2 +1,2 @@
-# harbors_gas_vo_-application
+# harbors_gas_vo_application
 バーチャルオフィス申込フォームAPI管理
