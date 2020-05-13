@@ -14,22 +14,31 @@ function main() {
 
   // ヘッダー名に対応する列番号を保持する配列
   let columnIndex = {  
-    timeStamp: 0,         // タイムスタンプ
-    userName: 0,          // 契約者ご本人氏名
-    mailAddress: 0,       // メールアドレス
-    companyName: 0,       // 会社名
-    zipCode: 0,           // 郵便番号
-    address: 0,           // 住所
-    phoneNumber: 0,       // 電話番号
-    mobilePhoneNumber: 0, // 携帯電話番号
-    corporateAddress: 0,  // 法人住所登記
-    post: 0,              // 専用ポスト
-    mailTransfer: 0,      // 郵便物転送
-    callForwarding: 0,    // 電話転送サービス
-    locker: 0,            // お客様専用ロッカー
-    startDate: 0,         // 利用開始日
-    contractPeriod: 0,    // 契約期間
-    status: 0,            // ステータス
+    timeStamp: 0,             // タイムスタンプ
+    userName: 0,              // 契約者ご本人氏名
+    mailAddress: 0,           // メールアドレス
+    invoiceMailAddress: 0,    // 請求先メールアドレス
+    invoiceName: 0,           // 請求先氏名
+    contactType: 0,           // 契約種別
+    companyName: 0,           // 会社名,
+    representativeName: 0,    // 代表者名
+    zipCode: 0,               // 郵便番号
+    address: 0,               // 都道府県・市区町村・番地
+    addressDetails: 0,        // 建物名・部屋・番号など
+    phoneNumber: 0,           // 電話番号
+    mobilePhoneNumber: 0,     // 携帯電話番号
+    corporateAddress: 0,      // 法人住所登記
+    post: 0,                  // 専用ポスト
+    mailTransfer: 0,          // 郵便物転送
+    mailTransferSize: 0,      // 郵便物転送 サイズ
+    mailTransferAddress: 0,   // 郵便物転送住所
+    callForwarding: 0,        // 電話転送サービス
+    callForwardingNumber: 0,  // 電話転送先電話番号
+    locker: 0,                // お客様専用ロッカー
+    lockerSize: 0,            // お客様専用ロッカーサイズ
+    startDate: 0,             // 利用開始日
+    contractPeriod: 0,        // 契約期間
+    status: 0,                // ステータス
   };
 
   // オペレーターに送信する情報を持つの列番号を取得　←列がずれても処理に影響が出ないようにするため
