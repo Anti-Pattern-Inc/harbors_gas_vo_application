@@ -186,6 +186,7 @@ function main() {
       } catch(error) {
         postMessageToContactChannel('<!channel>「アヤンテスト」の申込でエラーが発生しました。\n```エラー内容:' + error + '```');
         dataList[i][columnIndex.status] = 'エラー発生しました'
+        continue
       }
 
       console.log(body.toString())
