@@ -167,6 +167,13 @@ function main() {
       body = body.replace("%startDate%", dataList[i][columnIndex.startDate].toLocaleDateString());
 
       // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
+      try{        
+        // slack通知
+        postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
+      }catch(error){
+        // putlog(error);
+        throw new Error('slack送信エラー(' + error + ')');
+      }
       console.log(body.toString())
       dataList[i][columnIndex.status] = '確認メール送信済'
     }
