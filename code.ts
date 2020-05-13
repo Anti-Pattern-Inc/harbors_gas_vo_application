@@ -171,11 +171,10 @@ function main() {
         // slack通知
         postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
       }catch(error){
-        // putlog(error);
         throw new Error('slack送信エラー(' + error + ')');
       }
       console.log(body.toString())
-      dataList[i][columnIndex.status] = '確認メール送信済'
+      dataList[i][columnIndex.status] = '申し込み通知済'
     }
   }
   InputResultSheet.getRange(1, 1, dataList.length ,dataList[0].length).setValues(dataList); //データをシートに出力
@@ -206,4 +205,43 @@ function postMessageToContactChannel(message: string): void {
   }
   
   UrlFetchApp.fetch(webhookURL, options);
+}
+
+function testMail(): void {
+  sendCompleteMail('a.hayes@anti-pattern.co.jp')
+}
+
+/** 
+ * 予約完了メールを送信する
+ * @param {string} mailAddress 送信先アドレス
+ * @param {string} contactName 予約者者名
+ * @param {string} eventName   予約イベント名
+ * @param {string} visitDate   予約日利用日
+ * @param {string} visitTime   利用開始時間
+ * @return void
+ */
+function sendCompleteMail(mailAddress :string) :void{
+
+  //定義からテンプレートID取得
+  const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
+
+  // メールオプション
+  const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
+  // 件名
+  const title = "申込のお知らせ";
+  //　予約完了メールのテンプレートをドキュメントより取得
+  const document = DocumentApp.openById(templateId);
+  const bodyTemplate = document.getBody().getText();
+  // 氏名をセット
+  let body = bodyTemplate;
+  // let body = bodyTemplate.replace("%contactName%", contactName);
+  // // イベントをセット
+  // body = body.replace("%eventName%", eventName);
+  // // 予約日をセット
+  // body = body.replace("%visitDate%", visitDate);
+  // // 予約時間をセット
+  // body = body.replace("%visitTime%", visitTime);
+
+  GmailApp.sendEmail(mailAddress, title, body, option);
+
 }
