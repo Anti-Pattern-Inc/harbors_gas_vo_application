@@ -168,22 +168,21 @@ function main() {
 
       // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
       try {
-        throw new Error('test');
-        // try{        
-        //   // slack通知
-        //   // TODO slack 通知の正しいメッセージに変更
-        //   postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
-        // }catch(error){
-        //   throw new Error('slack送信エラー(' + error + ')');
-        // }
+        try{        
+          // slack通知
+          // TODO slack 通知の正しいメッセージに変更
+          postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
+        }catch(error){
+          throw new Error('slack送信エラー(' + error + ')');
+        }
   
-        // try{        
-        //   //申し込みお礼のメール送信
-        //   // TODO メール宛先を申請者に変更
-        //   sendCompleteMail('a.hayes@anti-pattern.co.jp');
-        // }catch(error){
-        //   throw new Error('メール送信エラー(' + error + ')');
-        // }
+        try{        
+          //申し込みお礼のメール送信
+          // TODO メール宛先を申請者に変更
+          sendCompleteMail('a.hayes@anti-pattern.co.jp');
+        }catch(error){
+          throw new Error('メール送信エラー(' + error + ')');
+        }
       } catch(error) {
         postMessageToContactChannel('<!channel>「アヤンテスト」の申込でエラーが発生しました。\n```エラー内容:' + error);
         dataList[i][columnIndex.status] = 'エラー発生しました'
