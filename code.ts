@@ -169,6 +169,7 @@ function main() {
       // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
       try{        
         // slack通知
+        // TODO slack 通知の正しいメッセージに変更
         postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
       }catch(error){
         throw new Error('slack送信エラー(' + error + ')');
@@ -176,6 +177,7 @@ function main() {
 
       try{        
         //申し込みお礼のメール送信
+        // TODO メール宛先を申請者に変更
         sendCompleteMail('a.hayes@anti-pattern.co.jp');
       }catch(error){
         throw new Error('メール送信エラー(' + error + ')');
@@ -238,6 +240,7 @@ function sendCompleteMail(mailAddress :string) :void{
   const document = DocumentApp.openById(templateId);
   const bodyTemplate = document.getBody().getText();
   // 氏名をセット
+  // TODO 正しい値をメール文面に切り替える
   let body = bodyTemplate;
   // let body = bodyTemplate.replace("%contactName%", contactName);
   // // イベントをセット
