@@ -184,7 +184,7 @@ function main() {
           throw new Error('メール送信エラー(' + error + ')');
         }
       } catch(error) {
-        postMessageToContactChannel('<!channel>「アヤンテスト」の申込でエラーが発生しました。\n```エラー内容:' + error);
+        postMessageToContactChannel('<!channel>「アヤンテスト」の申込でエラーが発生しました。\n```エラー内容:' + error + '```');
         dataList[i][columnIndex.status] = 'エラー発生しました'
       }
 
