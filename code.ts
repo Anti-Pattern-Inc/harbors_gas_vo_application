@@ -173,6 +173,14 @@ function main() {
       }catch(error){
         throw new Error('slack送信エラー(' + error + ')');
       }
+
+      try{        
+        //申し込みお礼のメール送信
+        sendCompleteMail('a.hayes@anti-pattern.co.jp');
+      }catch(error){
+        throw new Error('メール送信エラー(' + error + ')');
+      }
+
       console.log(body.toString())
       dataList[i][columnIndex.status] = '申し込み通知済'
     }
@@ -188,6 +196,7 @@ function main() {
  */
 function postMessageToContactChannel(message: string): void {
   // #contantへのwebhook URLを取得
+  // TODO slack-testからcontactのWebhookURLに切り替える
   const webhookURL = PropertiesService.getScriptProperties().getProperty('WEBHOOK_URL');
   // 投稿に必要なデータを用意
   const jsonData =
@@ -205,10 +214,6 @@ function postMessageToContactChannel(message: string): void {
   }
   
   UrlFetchApp.fetch(webhookURL, options);
-}
-
-function testMail(): void {
-  sendCompleteMail('a.hayes@anti-pattern.co.jp')
 }
 
 /** 
