@@ -175,3 +175,28 @@ function main() {
   console.log('process finish');
 }
 
+/** 
+ * slackのチャンネルにメッセージを投稿する
+ * @param  {string} message 投稿メッセージ
+ * @return {void}
+ */
+function postMessageToContactChannel(message: string): void {
+  // #contantへのwebhook URLを取得
+  const webhookURL = PropertiesService.getScriptProperties().getProperty('WEBHOOK_URL');
+  // 投稿に必要なデータを用意
+  const jsonData =
+  {
+      "text" : message  // 投稿メッセージ
+  };
+  // JSON文字列に変換
+  const payload = JSON.stringify(jsonData);
+
+  // 送信オプションを用意
+  const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
+    method: "post",
+    contentType: "application/json",
+    payload: payload
+  }
+  
+  UrlFetchApp.fetch(webhookURL, options);
+}
