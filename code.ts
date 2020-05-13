@@ -14,22 +14,31 @@ function main() {
 
   // ヘッダー名に対応する列番号を保持する配列
   let columnIndex = {  
-    timeStamp: 0,         // タイムスタンプ
-    userName: 0,          // 契約者ご本人氏名
-    mailAddress: 0,       // メールアドレス
-    companyName: 0,       // 会社名
-    zipCode: 0,           // 郵便番号
-    address: 0,           // 住所
-    phoneNumber: 0,       // 電話番号
-    mobilePhoneNumber: 0, // 携帯電話番号
-    corporateAddress: 0,  // 法人住所登記
-    post: 0,              // 専用ポスト
-    mailTransfer: 0,      // 郵便物転送
-    callForwarding: 0,    // 電話転送サービス
-    locker: 0,            // お客様専用ロッカー
-    startDate: 0,         // 利用開始日
-    contractPeriod: 0,    // 契約期間
-    status: 0,            // ステータス
+    timeStamp: 0,             // タイムスタンプ
+    userName: 0,              // 契約者ご本人氏名
+    mailAddress: 0,           // メールアドレス
+    invoiceMailAddress: 0,    // 請求先メールアドレス
+    invoiceName: 0,           // 請求先氏名
+    contractType: 0,          // 契約種別
+    companyName: 0,           // 会社名,
+    representativeName: 0,    // 代表者名
+    zipCode: 0,               // 郵便番号
+    address: 0,               // 都道府県・市区町村・番地
+    addressDetails: 0,        // 建物名・部屋・番号など
+    phoneNumber: 0,           // 電話番号
+    mobilePhoneNumber: 0,     // 携帯電話番号
+    corporateAddress: 0,      // 法人住所登記
+    post: 0,                  // 専用ポスト
+    mailTransfer: 0,          // 郵便物転送
+    mailTransferSize: 0,      // 郵便物転送 サイズ
+    mailTransferAddress: 0,   // 郵便物転送住所
+    callForwarding: 0,        // 電話転送サービス
+    callForwardingNumber: 0,  // 電話転送先電話番号
+    locker: 0,                // お客様専用ロッカー
+    lockerSize: 0,            // お客様専用ロッカーサイズ
+    startDate: 0,             // 利用開始日
+    contractPeriod: 0,        // 契約期間
+    status: 0,                // ステータス
   };
 
   // オペレーターに送信する情報を持つの列番号を取得　←列がずれても処理に影響が出ないようにするため
@@ -45,14 +54,29 @@ function main() {
       case 'メールアドレス':
         columnIndex.mailAddress = i;
         break;
+      case '請求先メールアドレス':
+        columnIndex.invoiceMailAddress = i;
+        break;
+      case '請求先氏名':
+        columnIndex.invoiceName = i;
+        break;
+      case '契約種別':
+        columnIndex.contractType = i;
+        break;
       case '会社名':
         columnIndex.companyName = i;
+        break;
+      case '代表者名':
+        columnIndex.representativeName = i;
         break;
       case '郵便番号':
         columnIndex.zipCode = i;
         break;
-      case '住所':
+      case '都道府県・市区町村・番地':
         columnIndex.address = i;
+        break;
+      case '建物名・部屋・番号など':
+        columnIndex.addressDetails = i;
         break;
       case '電話番号（任意）':
         columnIndex.phoneNumber = i;
@@ -69,11 +93,23 @@ function main() {
       case '郵便物転送（月額）':
         columnIndex.mailTransfer = i;
         break;
+      case '郵便物転送 サイズ（月額）':
+        columnIndex.mailTransferSize = i;
+        break;
+      case '郵便物転送　転送先住所':
+        columnIndex.mailTransferAddress = i;
+        break;
       case '電話転送サービス（月額）':
         columnIndex.callForwarding = i;
         break;
+      case '電話転送サービス 転送先電話番号':
+        columnIndex.callForwardingNumber = i;
+        break;
       case 'お客様専用ロッカー（月額）':
         columnIndex.locker = i;
+        break;
+      case 'お客様専用ロッカー サイズ（月額）':
+        columnIndex.lockerSize = i;
         break;
       case '利用開始日':
         columnIndex.startDate = i;
@@ -130,7 +166,7 @@ function main() {
       // 利用開始日をセット
       body = body.replace("%startDate%", dataList[i][columnIndex.startDate].toLocaleDateString());
 
-      GmailApp.sendEmail('contact@harbors.sh', title, body, option);
+      // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
       console.log(body.toString())
       dataList[i][columnIndex.status] = '確認メール送信済'
     }
