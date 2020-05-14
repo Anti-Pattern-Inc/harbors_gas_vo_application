@@ -138,7 +138,7 @@ function main() {
         cc: PropertiesService.getScriptProperties().getProperty('CARBON_COPY_EMAIL')
       };
       // 件名
-      const title = "バーチャルオフィス申込み入力完了通知";
+      const title = "バーチャルオフィスのお申し込みありがとうございます";
       //　予約完了メールのテンプレートをドキュメントより取得
       const reciever = dataList[i][columnIndex.mailAddress];
       const mailBody = formatCompleteMailBody(dataList[i][columnIndex.userName]);
@@ -147,7 +147,7 @@ function main() {
         try{        
           // slack通知
           // TODO slack 通知の正しいメッセージに変更
-          postMessageToContactChannel('<!channel>「アヤンテスト」に申し込みがありました。');
+          postMessageToContactChannel('<!channel>「バーチャルオフィス」に申し込みがありました。');
         }catch(error){
           throw new Error('slack送信エラー(' + error + ')');
         }
@@ -159,7 +159,7 @@ function main() {
           throw new Error('メール送信エラー(' + error + ')');
         }
       } catch(error) {
-        postMessageToContactChannel('<!channel>「アヤンテスト」の申込でエラーが発生しました。\n```エラー内容:' + error + '```');
+        postMessageToContactChannel('<!channel>「バーチャルオフィス」の申込でエラーが発生しました。\n```エラー内容:' + error + '```');
         dataList[i][columnIndex.status] = 'エラー発生しました'
         continue
       }
