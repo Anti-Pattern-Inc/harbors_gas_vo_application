@@ -120,6 +120,8 @@ function main() {
       case 'ステータス':
         columnIndex.status = i;
         break;
+      default:
+        throw new Error('一致しているカラムが存在していません。');
     }
   }
   console.log('パラメータ数：%d',dataList.length);
