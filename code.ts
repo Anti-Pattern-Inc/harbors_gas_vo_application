@@ -132,39 +132,10 @@ function main() {
       // 件名
       const title = "バーチャルオフィス申込み入力完了通知";
       //　予約完了メールのテンプレートをドキュメントより取得
-      const document = DocumentApp.openById('1MQYvINz-DP7YbPQMyAIGSv7xklljJ2gQa3lx8Gz5oN0'); //ドキュメントをIDで取得
-      const bodyTemplate = document.getBody().getText();
-
-      // タイムスタンプをセット
-      let body = bodyTemplate.replace("%timeStamp%", dataList[i][columnIndex.timeStamp].toLocaleDateString());
-      // ご契約者ご本人氏名をセット
-      body = body.replace("%userName%", dataList[i][columnIndex.userName]);
-      // メールアドレスをセット
-      body = body.replace("%mailAddress%", dataList[i][columnIndex.mailAddress]);
-      // 会社名をセット
-      body = body.replace("%companyName%", dataList[i][columnIndex.companyName]);
-      // 郵便番号をセット
-      body = body.replace("%zipCode%", dataList[i][columnIndex.zipCode]);
-      // 住所をセット
-      body = body.replace("%address%", dataList[i][columnIndex.address]);
-      // 電話番号をセット
-      body = body.replace("%phoneNumber%", dataList[i][columnIndex.phoneNumber]);
-      // 携帯電話番号をセット
-      body = body.replace("%mobilePhoneNumber%", dataList[i][columnIndex.mobilePhoneNumber]);
-      // 法人住所登記（月額）プランをセット
-      body = body.replace("%corporateAddress%", dataList[i][columnIndex.corporateAddress]);
-      // 専用ポスト（月額）プランをセット
-      body = body.replace("%post%", dataList[i][columnIndex.post]);
-      // 郵便物転送（月額）プランをセット
-      body = body.replace("%mailTransfer%", dataList[i][columnIndex.mailTransfer]);
-      // 電話転送サービス（月額）プランをセット
-      body = body.replace("%callForwarding%", dataList[i][columnIndex.callForwarding]);
-      // お客様専用ロッカー（月額）プランをセット
-      body = body.replace("%locker%", dataList[i][columnIndex.locker]);
-      // 契約期間をセット
-      body = body.replace("%contractPeriod%", dataList[i][columnIndex.contractPeriod]);
-      // 利用開始日をセット
-      body = body.replace("%startDate%", dataList[i][columnIndex.startDate].toLocaleDateString());
+      // const document = DocumentApp.openById('1MQYvINz-DP7YbPQMyAIGSv7xklljJ2gQa3lx8Gz5oN0'); //ドキュメントをIDで取得
+      // const bodyTemplate = document.getBody().getText();
+      const reciever = dataList[i][columnIndex.mailAddress];
+      const mailBody = formatCompleteMailBody(dataList[i][columnIndex.userName]);
 
       // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
       try {
@@ -179,7 +150,7 @@ function main() {
         try{        
           //申し込みお礼のメール送信
           // TODO メール宛先を申請者に変更
-          sendCompleteMail('a.hayes@anti-pattern.co.jp');
+          sendCompleteMail(reciever, mailBody, option, title);
         }catch(error){
           throw new Error('メール送信エラー(' + error + ')');
         }
@@ -189,7 +160,7 @@ function main() {
         continue
       }
 
-      console.log(body.toString())
+      console.log(mailBody.toString())
       dataList[i][columnIndex.status] = '申し込み通知済'
     }
   }
@@ -224,30 +195,48 @@ function postMessageToContactChannel(message: string): void {
   UrlFetchApp.fetch(webhookURL, options);
 }
 
-/** 
- * 予約完了メールを送信する
- * @param {string} mailAddress 送信先アドレス
- * @param {string} contactName 予約者者名
- * @param {string} eventName   予約イベント名
- * @param {string} visitDate   予約日利用日
- * @param {string} visitTime   利用開始時間
- * @return void
- */
-function sendCompleteMail(mailAddress :string) :void{
-
+function formatCompleteMailBody(userName :string) :string{
   //定義からテンプレートID取得
   const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
 
   // メールオプション
   const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
   // 件名
-  const title = "申込のお知らせ";
+  const subject = "申込のお知らせ";
   //　予約完了メールのテンプレートをドキュメントより取得
   const document = DocumentApp.openById(templateId);
   const bodyTemplate = document.getBody().getText();
   // 氏名をセット
   // TODO 正しい値をメール文面に切り替える
   let body = bodyTemplate;
+  // ご契約者ご本人氏名をセット
+  body = body.replace("%userName%", userName);
+  return body
+}
+
+/** 
+ * 予約完了メールを送信する
+ * @param {string} mailAddress 送信先アドレス
+ * @param {string} body 予約者者名
+ * @param {object} options   予約イベント名
+ * @param {string} subject   予約日利用日
+ * @return void
+ */
+function sendCompleteMail(mailAddress :string, body :string, options :object, subject :string) :void{
+
+  //定義からテンプレートID取得
+  // const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
+
+  // メールオプション
+  // const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
+  // 件名
+  // const title = "申込のお知らせ";
+  //　予約完了メールのテンプレートをドキュメントより取得
+  // const document = DocumentApp.openById(templateId);
+  // const bodyTemplate = document.getBody().getText();
+  // 氏名をセット
+  // TODO 正しい値をメール文面に切り替える
+  // let body = bodyTemplate;
   // let body = bodyTemplate.replace("%contactName%", contactName);
   // // イベントをセット
   // body = body.replace("%eventName%", eventName);
