@@ -120,6 +120,8 @@ function main() {
       case 'ステータス':
         columnIndex.status = i;
         break;
+      case 'https://harbors.anti-pattern.co.jp/terms/virtual_office/':
+        break;
       default:
         throw new Error(dataList[0][i] + '一致しているカラムが存在していません。');
     }
