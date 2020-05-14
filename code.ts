@@ -121,7 +121,7 @@ function main() {
         columnIndex.status = i;
         break;
       default:
-        throw new Error('一致しているカラムが存在していません。');
+        throw new Error(dataList[0][i] + '一致しているカラムが存在していません。');
     }
   }
   console.log('パラメータ数：%d',dataList.length);
