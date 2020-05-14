@@ -138,7 +138,7 @@ function main() {
         cc: PropertiesService.getScriptProperties().getProperty('CARBON_COPY_EMAIL')
       };
       // 件名
-      const title = "バーチャルオフィスのお申し込みありがとうございます";
+      const title = "[HarborS表参道] バーチャルオフィスのお申し込みありがとうございます";
       //　予約完了メールのテンプレートをドキュメントより取得
       const reciever = dataList[i][columnIndex.mailAddress];
       const mailBody = formatCompleteMailBody(dataList[i][columnIndex.userName]);
