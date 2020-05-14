@@ -195,14 +195,13 @@ function postMessageToContactChannel(message: string): void {
   UrlFetchApp.fetch(webhookURL, options);
 }
 
-function formatCompleteMailBody(userName :string) :string{
+function formatCompleteMailBody(userName :string) :string　{
   //定義からテンプレートID取得
   const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
-
   // メールオプション
   const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
   // 件名
-  const subject = "申込のお知らせ";
+  // const subject = "申込のお知らせ";
   //　予約完了メールのテンプレートをドキュメントより取得
   const document = DocumentApp.openById(templateId);
   const bodyTemplate = document.getBody().getText();
@@ -223,28 +222,5 @@ function formatCompleteMailBody(userName :string) :string{
  * @return void
  */
 function sendCompleteMail(mailAddress :string, body :string, options :object, subject :string) :void{
-
-  //定義からテンプレートID取得
-  // const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
-
-  // メールオプション
-  // const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
-  // 件名
-  // const title = "申込のお知らせ";
-  //　予約完了メールのテンプレートをドキュメントより取得
-  // const document = DocumentApp.openById(templateId);
-  // const bodyTemplate = document.getBody().getText();
-  // 氏名をセット
-  // TODO 正しい値をメール文面に切り替える
-  // let body = bodyTemplate;
-  // let body = bodyTemplate.replace("%contactName%", contactName);
-  // // イベントをセット
-  // body = body.replace("%eventName%", eventName);
-  // // 予約日をセット
-  // body = body.replace("%visitDate%", visitDate);
-  // // 予約時間をセット
-  // body = body.replace("%visitTime%", visitTime);
-
-  GmailApp.sendEmail(mailAddress, title, body, option);
-
+  GmailApp.sendEmail(mailAddress, subject, body, options);
 }
