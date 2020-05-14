@@ -128,16 +128,17 @@ function main() {
     if(dataList[i][columnIndex.status] == "" && dataList[i][columnIndex.mailAddress] != ""){
       console.log("%d 行目の回答情報を処理", i+1);
       // メールオプション
-      const option = {from: 'contact@harbors.sh', name: 'バーチャルオフィス申込みフォーム'};
+      const option = {
+        from: 'contact@harbors.sh', 
+        name: 'バーチャルオフィス申込みフォーム',
+        cc: PropertiesService.getScriptProperties().getProperty('CARBON_COPY_EMAIL')
+      };
       // 件名
       const title = "バーチャルオフィス申込み入力完了通知";
       //　予約完了メールのテンプレートをドキュメントより取得
-      // const document = DocumentApp.openById('1MQYvINz-DP7YbPQMyAIGSv7xklljJ2gQa3lx8Gz5oN0'); //ドキュメントをIDで取得
-      // const bodyTemplate = document.getBody().getText();
       const reciever = dataList[i][columnIndex.mailAddress];
       const mailBody = formatCompleteMailBody(dataList[i][columnIndex.userName]);
 
-      // GmailApp.sendEmail('contact@harbors.sh', title, body, option);
       try {
         try{        
           // slack通知
@@ -149,7 +150,6 @@ function main() {
   
         try{        
           //申し込みお礼のメール送信
-          // TODO メール宛先を申請者に変更
           sendCompleteMail(reciever, mailBody, option, title);
         }catch(error){
           throw new Error('メール送信エラー(' + error + ')');
@@ -198,15 +198,10 @@ function postMessageToContactChannel(message: string): void {
 function formatCompleteMailBody(userName :string) :string　{
   //定義からテンプレートID取得
   const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
-  // メールオプション
-  const option = {from: 'contact@harbors.sh', name: 'HarborS運営スタッフ'};
-  // 件名
-  // const subject = "申込のお知らせ";
   //　予約完了メールのテンプレートをドキュメントより取得
   const document = DocumentApp.openById(templateId);
   const bodyTemplate = document.getBody().getText();
   // 氏名をセット
-  // TODO 正しい値をメール文面に切り替える
   let body = bodyTemplate;
   // ご契約者ご本人氏名をセット
   body = body.replace("%userName%", userName);
