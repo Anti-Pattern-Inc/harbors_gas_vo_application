@@ -146,7 +146,6 @@ function main() {
       try {
         try{        
           // slack通知
-          // TODO slack 通知の正しいメッセージに変更
           postMessageToContactChannel('<!channel>「バーチャルオフィス」に申し込みがありました。');
         }catch(error){
           throw new Error('slack送信エラー(' + error + ')');
@@ -178,7 +177,7 @@ function main() {
  * @return {void}
  */
 function postMessageToContactChannel(message: string): void {
-  // #contantへのwebhook URLを取得
+  // #contactへのwebhook URLを取得
   // TODO slack-testからcontactのWebhookURLに切り替える
   const webhookURL = PropertiesService.getScriptProperties().getProperty('WEBHOOK_URL');
   // 投稿に必要なデータを用意
@@ -199,10 +198,15 @@ function postMessageToContactChannel(message: string): void {
   UrlFetchApp.fetch(webhookURL, options);
 }
 
+/**
+ * バージャルオフィス完了メール文面のパラメーター設定
+ * @param {string} userName
+ * @return {string} 
+ */
 function formatCompleteMailBody(userName :string) :string　{
-  //定義からテンプレートID取得
+  //　定義からテンプレートID取得
   const templateId = PropertiesService.getScriptProperties().getProperty('COMPLETE_MAIL_TEMPLATE');
-  //　予約完了メールのテンプレートをドキュメントより取得
+  //　申し込み完了メールのテンプレートをドキュメントより取得
   const document = DocumentApp.openById(templateId);
   const bodyTemplate = document.getBody().getText();
   // 氏名をセット
@@ -213,11 +217,11 @@ function formatCompleteMailBody(userName :string) :string　{
 }
 
 /** 
- * 予約完了メールを送信する
+ * バージャルオフィス申し込み完了メールを送信する
  * @param {string} mailAddress 送信先アドレス
- * @param {string} body 予約者者名
- * @param {object} options   予約イベント名
- * @param {string} subject   予約日利用日
+ * @param {string} body メール文面
+ * @param {object} options 
+ * @param {string} subject 件名
  * @return void
  */
 function sendCompleteMail(mailAddress :string, body :string, options :object, subject :string) :void{
