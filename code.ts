@@ -135,7 +135,7 @@ function main() {
       const option = {
         from: 'contact@harbors.sh', 
         name: 'バーチャルオフィス申込みフォーム',
-        // cc: PropertiesService.getScriptProperties().getProperty('CARBON_COPY_EMAIL')
+        cc: PropertiesService.getScriptProperties().getProperty('CARBON_COPY_EMAIL')
       };
       // 件名
       const title = "バーチャルオフィス申込み入力完了通知";
